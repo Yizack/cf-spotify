@@ -1,0 +1,17 @@
+{
+  "name": "cf-spotify",
+  "version": "1.0.0",
+  "type": "module",
+  "devDependencies": {
+    "wrangler": "2.5.0"
+  },
+  "private": true,
+  "scripts": {
+    "start": "wrangler dev",
+    "deploy": "wrangler publish"
+  },
+  "dependencies": {
+    "eslint": "^8.29.0",
+    "itty-router": "^2.6.6"
+  }
+}
