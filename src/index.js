@@ -27,5 +27,5 @@ export default {
     const API = new SpotifyAPI(env.CLIENT_ID, env.CLIENT_SECRET);
     await API.generateToken();
     return router.handle(request, API);
-  },
+  }
 };
