@@ -1,12 +1,18 @@
 name = "cf-spotify"
-main = "src/index.js"
+main = "./.output/server/index.mjs"
 compatibility_date = "2022-12-04"
-usage_model = "bundled"
 env = { }
+
+rules = [
+  { type = "ESModule", globs = ["**/*.js", "**/*.mjs"]},
+]
+
+[site]
+bucket = ".output/public"
 
 [triggers]
 crons = [ ]
 
 # [secrets]
-# CLIENT_ID
-# CLIENT_SECRET
+# NITRO_CLIENT_ID
+# NITRO_CLIENT_SECRET
