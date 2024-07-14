@@ -1,46 +1,36 @@
 export class SpotifyAPI {
-  api: string;
-  api_token: string;
-  access_token: string;
-  client_id: string;
-  client_secret: string;
-  constructor (client_id: string, client_secret: string) {
-
-    this.api = "https://api.spotify.com/v1";
-    this.api_token = "https://accounts.spotify.com/api/token";
-
-    this.access_token = null;
-    this.client_id = client_id;
-    this.client_secret = client_secret;
+  apiURL: string;
+  apiTokenURL: string;
+  accessToken: string;
+  clientId: string;
+  clientSecret: string;
+  constructor (clientId: string, clientSecret: string) {
+    this.apiURL = "https://api.spotify.com/v1";
+    this.apiTokenURL = "https://accounts.spotify.com/api/token";
+    this.accessToken = null;
+    this.clientId = clientId;
+    this.clientSecret = clientSecret;
   }
 
   async generateToken () {
-    const response = await fetch(this.api_token, {
+    const basicAuth = btoa(`${this.clientId}:${this.clientSecret}`);
+    const response = await $fetch<{ access_token: string }>(this.apiTokenURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Basic " + (btoa(this.client_id + ":" + this.client_secret).toString())
+        "Authorization": `Basic ${basicAuth}`
       },
       body: "grant_type=client_credentials"
-    });
-
-    const { access_token } = await response.json();
-    this.access_token = access_token;
-  }
-
-  getAccessToken () {
-    return this.access_token;
+    }).catch(() => { throw new Error("Failed to generate access token"); });
+    this.accessToken = response.access_token;
   }
 
   async getArtist (id: string) {
-    const response = await $fetch<SpotifyArtist>(`${this.api}/artists/${id}`, {
+    const response = await $fetch<SpotifyArtist>(`${this.apiURL}/artists/${id}`, {
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.access_token}`
+        Authorization: `Bearer ${this.accessToken}`
       }
-    }).catch(() => null);
+    }).catch(() => { throw createError({ statusCode: 404, message: "Artist not found" }); });
     return response;
   }
-
 }
