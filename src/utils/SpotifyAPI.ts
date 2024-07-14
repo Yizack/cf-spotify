@@ -33,7 +33,7 @@ export class SpotifyAPI {
   }
 
   async getArtist (id: string) {
-    const response = await $fetch(`${this.api}/artists/${id}`, {
+    const response = await $fetch<SpotifyArtist>(`${this.api}/artists/${id}`, {
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
