@@ -47,7 +47,8 @@ export default [
       "@stylistic/one-component-per-file": "off",
       "@stylistic/require-default-prop": "off",
       "@stylistic/space-in-parens": ["error", "never"],
-      "@stylistic/template-curly-spacing": "error"
+      "@stylistic/template-curly-spacing": "error",
+      "@stylistic/quote-props": ["error", "consistent-as-needed"]
     }
   }
 ];
